@@ -1,0 +1,32 @@
+<nav class="navbar navbar-light bg-light justify-content-between bg-light-navbar">
+  <p class="photo-count">{{selectedAlbumsPhotosCount}} Photos</p>
+  <form class="form-inline" *ngIf="selectedAlbumsPhotosCount !== 0">
+    <div class="dropdown">
+      <img src="./assets/sort-photo.jpg" style="cursor: pointer;" width="20" height="20" id="dropdownMenuButton" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+      <div class="dropdown-menu sort-dropdown" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item disabled" href="#">
+          <i class="fas fa-check icon sort-options"></i>Name</a>
+        <hr>
+        <a class="dropdown-item" href="#" (click)="doSortUsersList('a-z')">
+          <i class="fas fa-check icon sort-options" *ngIf="sortType === 'a-z'"></i>
+          <span [ngClass]="{'sort-label-position' : sortType !== 'a-z'}">A-Z</span>
+        </a>
+        <a class="dropdown-item" href="#" (click)="doSortUsersList('z-a')">
+          <i class="fas fa-check icon sort-options" *ngIf="sortType === 'z-a'"></i>
+          <span [ngClass]="{'sort-label-position' : sortType !== 'z-a'}">Z-A</span>
+        </a>
+      </div>
+    </div>
+  </form>
+</nav>
+<label class="no-album-text" *ngIf="selectedAlbumsPhotosCount === 0">Select an album first</label>
+<div class="view-container">
+  <div class="row" *ngIf="selectedAlbumsPhotosCount > 0">
+    <div class="col-md-3" *ngFor="let photo of photosList">
+      <mat-spinner *ngIf="!photo.loaded"></mat-spinner>
+      <img src="{{photo.thumbnailUrl}}" title="{{photo.title}}" (load)="photo.loaded = true">
+      <p class="text-truncate photo-title" title="{{photo.title}}">{{photo.title}}</p>
+    </div>
+  </div>
+</div>

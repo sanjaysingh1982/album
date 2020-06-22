@@ -1,0 +1,33 @@
+<nav class="navbar navbar-light bg-light justify-content-between bg-light-navbar">
+  <a class="navbar-brand header-label" *ngIf="!isSearchUser">Users</a>
+  <div class="row search-container" *ngIf="isSearchUser">
+    <form class="form-inline">
+      <i class="fas fa-arrow-left icon" (click)="doToggleSearch()"></i>
+      <input class="search-input" type="text" placeholder="Search users" name="search" [(ngModel)]="searchText">
+      <i class="fas fa-times icon" (click)="doToggleSearch('close')"></i>
+    </form>
+  </div>
+  <form class="form-inline" *ngIf="!isSearchUser">
+    <div class="dropdown">
+      <img class="sort-control" style="cursor: pointer;" src="./assets/sort.jpg" width="20" height="20" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <div class="dropdown-menu sort-dropdown" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item disabled" href="#"><i class="fas fa-check icon sort-options"></i>Name</a>
+        <hr>
+        <a class="dropdown-item" href="#" (click)="doSortUsersList('a-z')"><i class="fas fa-check icon sort-options" *ngIf="sortType === 'a-z'"></i><span [ngClass]="{'sort-label-position' : sortType !== 'a-z'}">A-Z</span></a>
+        <a class="dropdown-item" href="#" (click)="doSortUsersList('z-a')"><i class="fas fa-check icon sort-options" *ngIf="sortType === 'z-a'"></i><span [ngClass]="{'sort-label-position' : sortType !== 'z-a'}">Z-A</span></a>
+      </div>
+    </div>
+    <i class="fas fa-search icon" (click)="doToggleSearch()"></i>
+  </form>
+</nav>
+<div class="pointer" *ngFor="let user of userList | searchFilter: searchText" (click)="doUserSelect($event, user)" [ngClass]="{'user-select' : user === selectedUser}">
+  <div class="row view-container">
+    <img class="user-photo rounded-circle" src="{{user.photo}}" width="40" height="40">
+    <ul class="userlist-ul">
+      <li class="username-label" [ngClass]="{'user-select-text' : user === selectedUser}">{{user.name}}</li>
+      <li class="other-label" [ngClass]="{'user-select-text' : user === selectedUser}">{{user.username}}</li>
+      <li class="other-label" [ngClass]="{'user-select-text' : user === selectedUser}">{{user.email}}</li>
+    </ul>
+    <div class="col-md-12 hr-line"></div>
+  </div>
+</div>

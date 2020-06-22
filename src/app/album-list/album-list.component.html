@@ -1,0 +1,48 @@
+<nav class="navbar navbar-light bg-light justify-content-between bg-light-navbar">
+  <a class="navbar-brand header-label">Albums</a>
+  <form class="form-inline" *ngIf="selectedUser.userid !== -1">
+    <mat-checkbox class="control" [checked]="isSelectAllChecked" (change)="doAlbumSelect($event, 'all')">Select all</mat-checkbox>
+  </form>
+</nav>
+<div class="view-container">
+  <label *ngIf="selectedUser.userid === -1" class="no-user-text">Select a user first</label>
+  <div class="container row" *ngIf="selectedUser.userid !== -1">
+    <div class="col-md-6" *ngFor="let album of albumList">
+      <div class="row">
+        <mat-checkbox class="control album-name" [checked]="album.checked" (change)="doAlbumSelect($event, 'single', album)">
+          <div class="text-truncate" style="min-width: 230px; max-width: 230px;">{{album.title}}</div>
+        </mat-checkbox>
+        <span class="photos-count">{{album.photosCount}} Photos</span>
+      </div>
+    </div>
+  </div>
+  <div class="button-bg" data-toggle="modal" data-target="#newAlbumModal" *ngIf="selectedUser.userid !== -1">
+    <i class="fas fa-plus plus-btn"></i>
+  </div>
+  <div class="modal" id="newAlbumModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Create New Album</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <mat-form-field class="album-name-input">
+              <input matInput placeholder="User Name" value="{{selectedUser.name}}" readonly>
+            </mat-form-field>
+            <mat-form-field class="album-name-input">
+              <input matInput placeholder="Album Name">
+            </mat-form-field>
+            <div class="file btn btn-sm btn-warning upload-container">
+              <i class="fas fa-upload"></i> Upload photos
+              <input class="input-file" type="file" />
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Save Album</button>
+        </div>
+      </div>
+    </div>
+  </div>
